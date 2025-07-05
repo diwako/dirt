@@ -1,0 +1,45 @@
+name = "D.I.R.T."
+prefix = "dirt"
+author = "Diwako"
+mainprefix = "z"
+
+[version]
+path = "addons/main/script_version.hpp"
+git_hash = 0
+
+[files]
+include = [
+    "meta.cpp",
+    "mod.cpp",
+    "license.txt",
+    "logolarge.paa",
+    "logosmall.paa",
+]
+exclude = ["*.psd", "*.png", "*.tga", "/**/Cfg*.hpp"]
+
+[hemtt.signing]
+authority = "dirt"
+
+[hemtt.release]
+folder = "dirt"
+
+[lints.stringtables.sorted]
+options.only-lang = true
+
+[lints.sqf.var_all_caps]
+enabled = true
+options.ignore = []
+
+[hemtt.launch.default]
+workshop = [
+    "450814997",  # CBA_A3's Workshop ID
+    "463939057",  # ACE3
+    "3499977893", # Advanced developer tools
+]
+parameters = ["-world=empty"]
+
+[hemtt.launch.winter]
+extends = "default"
+workshop = [
+    "1291778160", # Hellanmaa
+]
