@@ -14,7 +14,7 @@ import traceback
 import subprocess as sp
 from github import Github
 
-TRANSLATIONISSUE = 1
+TRANSLATIONISSUE = 2
 TRANSLATIONBODY = """**[Translation Guide](https://ace3.acemod.org/wiki/development/how-to-translate-ace3.html)**
 {}
 """
