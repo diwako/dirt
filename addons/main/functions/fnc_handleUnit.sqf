@@ -19,7 +19,20 @@ private _fnc_container = {
             if (_textures isEqualTo []) then {
                 // systemChat format ["(Uniform) Could not find shit for %1 the second!", uniform _unit];
                 private _texturesSelections = getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelections");
-                _textures = (getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelectionsTextures")) select {"camo" in (toLower (_texturesSelections select _forEachIndex))};
+                if (_texturesSelections isNotEqualTo []) then {
+                    {
+                        if ("camo" in (toLower (_texturesSelections select _forEachIndex))) then {
+                            _textures pushBack _x;
+                        };
+                    } forEach (getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelectionsTextures"));
+                } else {
+                    _texturesSelections = getArray (configFile >> "CfgVehicles" >> (uniform _unit) >> "hiddenSelections");
+                    {
+                        if ("camo" in (toLower (_texturesSelections select _forEachIndex))) then {
+                            _textures pushBack _x;
+                        };
+                    } forEach (getArray (configFile >> "CfgVehicles" >> (uniform _unit) >> "hiddenSelectionsTextures"));
+                };
                 // if (_textures isEqualTo []) then {
                 //     systemChat format ["(Uniform) Could not find shit for %1 even in hidden selections", uniform _unit];
                 // };
