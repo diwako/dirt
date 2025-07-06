@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="dirt">
+    <Package name="main">
+        <Key ID="STR_DIRT_main_Category">
+            <English>D.I.R.T. - Dynamic Textures</English>
+        </Key>
+        <Key ID="STR_DIRT_main_subcategoryTextures">
+            <English>Textures</English>
+        </Key>
+        <Key ID="STR_DIRT_main_enable">
+            <English>Enable</English>
+        </Key>
+        <Key ID="STR_DIRT_main_affectAI">
+            <English>Affect AI</English>
+        </Key>
+        <Key ID="STR_DIRT_main_affectAI_desc">
+            <English>When enabled, AI units will also be given dynamic textures</English>
+        </Key>
+        <Key ID="STR_DIRT_main_updateFrequency">
+            <English>Update Frequency</English>
+        </Key>
+        <Key ID="STR_DIRT_main_updateFrequency_desc">
+            <English>Time in seconds when ever checks should run. Affects speed of textures being applies as well.</English>
+        </Key>
+        <Key ID="STR_DIRT_main_maxdyntextures">
+            <English>Maximum of dynamic textures</English>
+        </Key>
+        <Key ID="STR_DIRT_main_maxdyntextures_desc">
+            <English>Maximum amount of dynamicly rendered textures. Less saves more VRAM, more means it consumes more VRAM</English>
+        </Key>
+        <Key ID="STR_DIRT_main_maxdistance">
+            <English>Maximum Distance</English>
+        </Key>
+        <Key ID="STR_DIRT_main_maxdistance_desc">
+            <English>System only applies dynamic textures for targets in given range</English>
+        </Key>
+        <Key ID="STR_DIRT_main_maxdistanceanimations">
+            <English>Animation Distance</English>
+        </Key>
+        <Key ID="STR_DIRT_main_maxdistanceanimations_desc">
+            <English>Targets within this range will have their textures animated smoothly</English>
+        </Key>
+        <Key ID="STR_DIRT_main_groundincrease">
+            <English>Ground Effect Increment</English>
+        </Key>
+        <Key ID="STR_DIRT_main_groundincrease_desc">
+            <English>When crawling around, this amount of dirt or snow is being added to the target</English>
+        </Key>
+        <Key ID="STR_DIRT_main_grounddecrease">
+            <English>Ground Effect Reduction</English>
+        </Key>
+        <Key ID="STR_DIRT_main_grounddecrease_desc">
+            <English>When no longer crawling around, this amound of dirt or snow is being removed</English>
+        </Key>
+        <Key ID="STR_DIRT_main_precipitationincrease">
+            <English>Precipitation Effect Increment</English>
+        </Key>
+        <Key ID="STR_DIRT_main_precipitationincrease_desc">
+            <English>Amount of snow or dirt being added</English>
+        </Key>
+        <Key ID="STR_DIRT_main_precipitationdecrease">
+            <English>Precipitation Effect Reduction</English>
+        </Key>
+        <Key ID="STR_DIRT_main_precipitationdecrease_desc">
+            <English>Amound of rain or snow to be removed</English>
+        </Key>
+        <Key ID="STR_DIRT_main_burnincrease">
+            <English>Burn Effect Increment</English>
+        </Key>
+        <Key ID="STR_DIRT_main_burnincrease_desc">
+            <English>Amount of burn effect to be added</English>
+        </Key>
+        <Key ID="STR_DIRT_main_burndecrease">
+            <English>Burn Effect Reduction</English>
+        </Key>
+        <Key ID="STR_DIRT_main_burndecrease_desc">
+            <English>Amount of burn effect to be removed</English>
+        </Key>
+    </Package>
+</Project>

@@ -1,0 +1,14 @@
+name = "D.I.R.T. v{version}";
+picture = "logolarge.paa";
+actionName = "Website";
+action = "https://github.com/diwako/dirt";
+logoSmall = "logolarge.paa";
+logo = "logosmall.paa";
+logoOver = "logosmall.paa";
+tooltip = "D.I.R.T.";
+tooltipOwned = "D.I.R.T.";
+description = "D.I.R.T.";
+overview  = "Add dynamic texture layers to units";
+author = "diwako";
+hidePicture = 0;
+hideName = 0;
