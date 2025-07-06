@@ -16,3 +16,5 @@ Currently there are several effects added:
 - Burn/Scorching texture (ACE Fire support)
 
 This mod is also a framework to add more texture layers via compat mods or even through a mission's descriptin.ext. For this please check the [wiki on this GitHub repository](https://github.com/diwako/dirt/wiki).
+
+[Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3518145984)
