@@ -1,5 +1,5 @@
 #include "..\script_component.hpp"
-params ["_display", "_baseTexture", "_rotation", "_rotationOffset", "_isBackpack"];
+params ["_display", "_baseTexture", "_rotation", "_rotationOffset", "_isBackpack", "_unit"];
 
 private _base = controlNull;
 private _ctrl = controlNull;

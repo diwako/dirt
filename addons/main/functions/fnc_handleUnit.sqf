@@ -11,7 +11,7 @@ private _fnc_container = {
         _container setVariable [QGVAR(rotation), random 360];
         _container setVariable [QGVAR(rotationOffset), random 360];
     };
-    private _textures = (_container getObjectTextures CAMO_IDS)  select {!isNil "_x"};
+    private _textures = (_container getObjectTextures CAMO_IDS) select {!isNil "_x"};
     if (_textures isEqualTo []) then {
         if ("uniform" in _var) then {
             // systemChat format ["(Uniform) Could not find shit for %1", uniform _unit];
@@ -62,22 +62,21 @@ private _fnc_container = {
                 _display setVariable [QGVAR(name), _displayName];
                 _display setVariable [QGVAR(unit), _unit];
                 _display setVariable [QGVAR(definition), _displayDef];
-                [_display, _baseTexture, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var] call FUNC(initDisplay);
+                [_display, _baseTexture, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
                 _container setObjectTexture [_index, _displayDef];
                 deleteVehicle _helperObject;
             }, [_unit, _container, _displayName, _x, _helperObject, _displayDef, _forEachIndex, _var], 10, {
-                params ["_unit", "", "_displayName"];
+                params ["", "", "_displayName"];
                 // systemChat format ["%1 could not find %2", time, _displayName];
                 GVAR(orphanedDisplays) pushBack _displayName;
             }] call CBA_fnc_waitUntilAndExecute
         } else {
             // reuse an old display
             private _display = GVAR(freeDisplays) deleteAt 0;
-            private _displayName = _display getVariable QGVAR(name);
             (_unit getVariable QGVAR(displays)) pushBack _display;
             (_container getVariable QGVAR(displays)) pushBack _display;
             _display setVariable [QGVAR(unit), _unit];
-            [_display, _x, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var] call FUNC(initDisplay);
+            [_display, _x, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
             _container setObjectTexture [_forEachIndex, _display getVariable QGVAR(definition)];
         };
     } forEach _textures;
@@ -90,7 +89,7 @@ if !(_unit getVariable [QGVAR(active), false]) then {
     _unit setVariable [QGVAR(active), true];
     _unit setVariable [QGVAR(displays), []];
 
-	// step 2, add displays to containers
+    // step 2, add displays to containers
     if (uniform _unit isNotEqualTo "") then {
         [_unit, uniformContainer _unit, QGVAR(uniformContainer)] call _fnc_container;
     };

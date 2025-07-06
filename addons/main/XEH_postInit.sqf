@@ -49,7 +49,7 @@ private _effectIndex = 2;
 } forEach ("true" configClasses (missionConfigFile >> "dirt_textures_man"));
 
 player addEventHandler ["Respawn", {
-    params ["_unit", "_corpse"];
+    params ["_unit"];
     {
         _unit setVariable [format [QGVAR(%1Value), _x select 0], nil];
     } forEach GVAR(effectsHandlers);
