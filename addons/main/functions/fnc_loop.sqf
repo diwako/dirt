@@ -8,6 +8,21 @@ if !(GVAR(enable)) exitWith {
     GVAR(unitsAll) = [];
 };
 
+// check for savegame load, displays become null then
+if (GVAR(displays) isNotEqualTo [] && {isNull (GVAR(displays) select 0)}) exitWith {
+    [{
+        // systemChat "Save game detected";
+        {
+            [_x] call FUNC(resetUnit);
+        } forEach GVAR(unitsAll);
+        GVAR(displays) = [];
+        GVAR(freeDisplays) = [];
+        GVAR(displaysTotal) = 0;
+        GVAR(orphanedDisplays) = [];
+        GVAR(unitsAll) = [];
+    }] call CBA_fnc_execNextFrame;
+};
+
 private _camPos = positionCameraToWorld [0,0,0];
 private _units = allUnits;
 _units append allDead;
