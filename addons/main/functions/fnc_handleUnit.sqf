@@ -12,11 +12,12 @@ private _fnc_container = {
         _container setVariable [QGVAR(rotationOffset), random 360];
     };
     private _textures = (_container getObjectTextures CAMO_IDS) select {!isNil "_x"};
-    if (_textures isEqualTo []) then {
+    if (_textures isEqualTo [] || {"#(argb,2048,2048,1)ui(" in (_textures select 0)}) then {
         if ("uniform" in _var) then {
             // systemChat format ["(Uniform) Could not find shit for %1", uniform _unit];
             _textures = (_unit getObjectTextures CAMO_IDS) select {!isNil "_x"};
-            if (_textures isEqualTo []) then {
+            if (_textures isEqualTo [] || {"#(argb,2048,2048,1)ui(" in (_textures select 0)}) then {
+                _textures = [];
                 // systemChat format ["(Uniform) Could not find shit for %1 the second!", uniform _unit];
                 private _texturesSelections = getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelections");
                 if (_texturesSelections isNotEqualTo []) then {
@@ -86,6 +87,7 @@ private _fnc_container = {
         } else {
             // reuse an old display
             private _display = GVAR(freeDisplays) deleteAt 0;
+            if (isNull _display) then {continue;};
             (_unit getVariable QGVAR(displays)) pushBack _display;
             (_container getVariable QGVAR(displays)) pushBack _display;
             _display setVariable [QGVAR(unit), _unit];
