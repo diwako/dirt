@@ -75,6 +75,7 @@ private _fnc_container = {
                 GVAR(displays) pushBack _display;
                 _display setVariable [QGVAR(name), _displayName];
                 _display setVariable [QGVAR(unit), _unit];
+                _display setVariable [QGVAR(container), _container];
                 _display setVariable [QGVAR(definition), _displayDef];
                 [_display, _baseTexture, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
                 _container setObjectTexture [_index, _displayDef];
@@ -91,6 +92,7 @@ private _fnc_container = {
             (_unit getVariable QGVAR(displays)) pushBack _display;
             (_container getVariable QGVAR(displays)) pushBack _display;
             _display setVariable [QGVAR(unit), _unit];
+            _display setVariable [QGVAR(container), _container];
             [_display, _x, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
             _container setObjectTexture [_forEachIndex, _display getVariable QGVAR(definition)];
         };
