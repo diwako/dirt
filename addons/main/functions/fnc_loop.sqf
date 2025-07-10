@@ -36,7 +36,12 @@ _units = (_units inAreaArray [_camPos, GVAR(maxDistance), GVAR(maxDistance), 0, 
     [_x] call FUNC(resetUnit);
 } forEach (GVAR(unitsAll) select {!(_x in _units)});
 
-private _freeDisplays = GVAR(displays) select {!(_x in GVAR(freeDisplays)) && {isNull (_x getVariable [QGVAR(unit), objNull])}};
+private _freeDisplays = GVAR(displays) select {
+    !(_x in GVAR(freeDisplays)) && {(
+        isNull (_x getVariable [QGVAR(unit), objNull]) ||
+        {isNull (_x getVariable [QGVAR(container), objNull])}
+    )}
+};
 if (_freeDisplays isNotEqualTo []) then {
     GVAR(freeDisplays) append _freeDisplays;
 };

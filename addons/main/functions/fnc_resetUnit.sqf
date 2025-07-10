@@ -3,6 +3,7 @@ params ["_unit"];
 
 {
     _x setVariable [QGVAR(unit), nil];
+    _x setVariable [QGVAR(container), nil];
     GVAR(freeDisplays) pushBack _x;
 } forEach (_unit getVariable [QGVAR(displays), []]);
 [_unit getVariable [QGVAR(uniformContainer), objNull]] call FUNC(dressDownContainer);
