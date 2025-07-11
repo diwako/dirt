@@ -88,6 +88,8 @@ if (GVAR(farPFH) isEqualTo -1) then {
     if (isNull _display) then {continue};
     _display setVariable [QGVAR(name), _x];
     _display setVariable [QGVAR(unit), nil];
-    GVAR(displays) pushBack _display;
+    _display setVariable [QGVAR(container), nil];
+    _display setVariable [QGVAR(definition), format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _x]];
+    GVAR(displays) pushBackUnique _display;
     GVAR(orphanedDisplays) deleteAt _forEachIndex;
 } forEachReversed GVAR(orphanedDisplays);
