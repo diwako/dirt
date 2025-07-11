@@ -59,8 +59,7 @@ private _fnc_container = {
             _helperObject setObjectScale 0.1;
 
             private _displayName = format["dirt_textures§%1", GVAR(displaysTotal)];
-            private _displayDef = format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _displayName];
-            _helperObject setObjectTexture [0, _displayDef];
+            _helperObject setObjectTexture [0, format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _displayName]];
             GVAR(displaysTotal) = GVAR(displaysTotal) + 1;
             [{
                 params ["", "", "_displayName", "", "_helperObject"];
@@ -68,7 +67,7 @@ private _fnc_container = {
                 _helperObject setPosASL (AGLToASL positionCameraToWorld [0,0.5,1]);
                 !(isNull findDisplay _displayName)
             }, {
-                params ["_unit", "_container", "_displayName", "_baseTexture", "_helperObject", "_displayDef", "_index", "_var"];
+                params ["_unit", "_container", "_displayName", "_baseTexture", "_helperObject", "_index", "_var"];
                 private _display = findDisplay _displayName;
                 (_unit getVariable QGVAR(displays)) pushBack _display;
                 (_container getVariable QGVAR(displays)) pushBack _display;
@@ -76,11 +75,11 @@ private _fnc_container = {
                 _display setVariable [QGVAR(name), _displayName];
                 _display setVariable [QGVAR(unit), _unit];
                 _display setVariable [QGVAR(container), _container];
-                _display setVariable [QGVAR(definition), _displayDef];
+                _display setVariable [QGVAR(definition), format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _displayName]];
                 [_display, _baseTexture, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
-                _container setObjectTexture [_index, _displayDef];
+                _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
                 deleteVehicle _helperObject;
-            }, [_unit, _container, _displayName, _x, _helperObject, _displayDef, _forEachIndex, _var], 10, {
+            }, [_unit, _container, _displayName, _x, _helperObject, _forEachIndex, _var], 10, {
                 params ["", "", "_displayName"];
                 // systemChat format ["%1 could not find %2", time, _displayName];
                 GVAR(orphanedDisplays) pushBack _displayName;
@@ -88,9 +87,8 @@ private _fnc_container = {
         } else {
             // reuse an old display
             private _display = GVAR(freeDisplays) deleteAt 0;
-            if (isNull _display) then {continue;};
-            (_unit getVariable QGVAR(displays)) pushBack _display;
-            (_container getVariable QGVAR(displays)) pushBack _display;
+            (_unit getVariable QGVAR(displays)) pushBackUnique _display;
+            (_container getVariable QGVAR(displays)) pushBackUnique _display;
             _display setVariable [QGVAR(unit), _unit];
             _display setVariable [QGVAR(container), _container];
             [_display, _x, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
