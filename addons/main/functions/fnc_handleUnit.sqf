@@ -7,51 +7,49 @@ private _fnc_container = {
     if (isNull _container) exitWith {
         _unit setVariable [_var, _container];
     };
+    if (GVAR(displaysTotal) >= GVAR(maxDynTextures) && {GVAR(freeDisplays) isEqualTo []}) exitWith {};
     if ((_container getVariable [QGVAR(rotation), -1]) isEqualTo -1) then {
         _container setVariable [QGVAR(rotation), random 360];
         _container setVariable [QGVAR(rotationOffset), random 360];
     };
-    private _textures = (_container getObjectTextures CAMO_IDS) select {!isNil "_x"};
-    if (_textures isEqualTo [] || {"#(argb,2048,2048,1)ui(" in (_textures select 0)}) then {
+    private _textureInfo = _container getVariable [QGVAR(textures), []];
+    if (_textureInfo isEqualTo []) then {
+        private _textures = getObjectTextures _container;
+        private _texturesSelections = [];
+
         if ("uniform" in _var) then {
-            // systemChat format ["(Uniform) Could not find shit for %1", uniform _unit];
-            _textures = (_unit getObjectTextures CAMO_IDS) select {!isNil "_x"};
-            if (_textures isEqualTo [] || {"#(argb,2048,2048,1)ui(" in (_textures select 0)}) then {
-                _textures = [];
-                // systemChat format ["(Uniform) Could not find shit for %1 the second!", uniform _unit];
-                private _texturesSelections = getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelections");
-                if (_texturesSelections isNotEqualTo []) then {
-                    {
-                        if ("camo" in (toLower (_texturesSelections select _forEachIndex))) then {
-                            _textures pushBack _x;
-                        };
-                    } forEach (getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelectionsTextures"));
-                } else {
-                    _texturesSelections = getArray (configFile >> "CfgVehicles" >> (uniform _unit) >> "hiddenSelections");
-                    {
-                        if ("camo" in (toLower (_texturesSelections select _forEachIndex))) then {
-                            _textures pushBack _x;
-                        };
-                    } forEach (getArray (configFile >> "CfgVehicles" >> (uniform _unit) >> "hiddenSelectionsTextures"));
-                };
-                // if (_textures isEqualTo []) then {
-                //     systemChat format ["(Uniform) Could not find shit for %1 even in hidden selections", uniform _unit];
-                // };
+            if (_textures isEqualTo []) then {
+                _textures = getObjectTextures _unit;
+            };
+            _texturesSelections = getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelections");
+            if (_texturesSelections isEqualTo []) then {
+                _texturesSelections = getArray (configFile >> "CfgVehicles" >> (uniform _unit) >> "hiddenSelections");
             };
         } else {
-            // systemChat format ["(Backpack) Could not find shit for %1", backpack _unit];
-            _textures = getArray ((configOf _container) >> "hiddenSelectionsTextures");
+            _texturesSelections = getArray ((configOf _container) >> "hiddenSelections");
         };
+
+
+        {
+            if ((toLower _x) in CAMO_IDS) then {
+                _textureInfo pushBack [_forEachIndex, _textures select _forEachIndex, displayNull];
+            };
+        } forEach _texturesSelections;
+
+        _container setVariable [QGVAR(textures), _textureInfo];
+        _container setVariable [QGVAR(displays), []];
     };
-    _container setVariable [QGVAR(displays), []];
-    _container setVariable [QGVAR(textures), _textures];
+    _container setVariable [QGVAR(active), true];
 
     {
-        if (_x isEqualTo "") then {continue};
+        _x params ["_index", "_texture", ["_existingDisplay", displayNull]];
+        if (!isNull _existingDisplay || {_texture isEqualTo ""} || {(getTextureInfo _texture) select 0 <= 0}) then {continue};
         if (GVAR(freeDisplays) isEqualTo []) then {
             // generate a new display
-            if (GVAR(displaysTotal) >= GVAR(maxDynTextures)) then {continue};
-            if ((getTextureInfo _x) select 0 <= 0) then {continue};
+            if (GVAR(displaysTotal) >= GVAR(maxDynTextures)) then {
+                _container setVariable [QGVAR(active), nil];
+                continue
+            };
 
             // spawn a helper object, the player needs to look at the object that gets the ui2texture display applied
             private _helperObject = createSimpleObject ["Sign_Sphere10cm_F", [0,0,0], true];
@@ -79,22 +77,26 @@ private _fnc_container = {
                 [_display, _baseTexture, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
                 _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
                 deleteVehicle _helperObject;
-            }, [_unit, _container, _displayName, _x, _helperObject, _forEachIndex, _var], 10, {
-                params ["", "", "_displayName"];
+            }, [_unit, _container, _displayName, _texture, _helperObject, _index, _var], 10, {
+                params ["", "_container", "_displayName"];
                 // systemChat format ["%1 could not find %2", time, _displayName];
+                private _text = format ["Display has not been found in time, is now orphaned: %1", _displayName];
+                LOG(_text);
                 GVAR(orphanedDisplays) pushBack _displayName;
+                _container setVariable [QGVAR(active), nil];
             }] call CBA_fnc_waitUntilAndExecute
         } else {
             // reuse an old display
             private _display = GVAR(freeDisplays) deleteAt 0;
+            _x set [2, _display];
             (_unit getVariable QGVAR(displays)) pushBackUnique _display;
             (_container getVariable QGVAR(displays)) pushBackUnique _display;
             _display setVariable [QGVAR(unit), _unit];
             _display setVariable [QGVAR(container), _container];
-            [_display, _x, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
-            _container setObjectTexture [_forEachIndex, _display getVariable QGVAR(definition)];
+            [_display, _texture, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
+            _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
         };
-    } forEach _textures;
+    } forEach _textureInfo;
 
     _unit setVariable [_var, _container];
     _unit setVariable [QGVAR(updateTextures), true];
@@ -108,12 +110,9 @@ if !(_unit getVariable [QGVAR(active), false]) then {
     if (uniform _unit isNotEqualTo "") then {
         [_unit, uniformContainer _unit, QGVAR(uniformContainer)] call _fnc_container;
     };
-    [{
-        params ["_unit", "_fnc_container"];
-        if (backpack _unit isNotEqualTo "") then {
-            [_unit, backpackContainer _unit, QGVAR(backpackContainer)] call _fnc_container;
-        };
-    }, [_unit, _fnc_container]] call CBA_fnc_execNextFrame;
+    if (backpack _unit isNotEqualTo "") then {
+        [_unit, backpackContainer _unit, QGVAR(backpackContainer)] call _fnc_container;
+    };
 } else {
     // check if the backpack or uniform has changed
     private _fnc_Handle = {
@@ -132,10 +131,22 @@ if !(_unit getVariable [QGVAR(active), false]) then {
             [_unit, _container, _var] call _fnc_container;
         };
     };
-    if (_unit getVariable [QGVAR(uniformContainer), objNull] isNotEqualTo (uniformContainer _unit)) then {
-        [_unit, uniformContainer _unit, QGVAR(uniformContainer)] call _fnc_Handle;
+
+    private _uniformContainer = uniformContainer _unit;
+    if (_unit getVariable [QGVAR(uniformContainer), objNull] isNotEqualTo _uniformContainer) then {
+        [_unit, _uniformContainer, QGVAR(uniformContainer)] call _fnc_Handle;
+    } else {
+        if (!isNull _uniformContainer && {!(_uniformContainer getVariable [QGVAR(active), false])}) then {
+            [_unit, _uniformContainer, QGVAR(uniformContainer)] call _fnc_container;
+        };
     };
-    if (_unit getVariable [QGVAR(backpackContainer), objNull] isNotEqualTo (backpackContainer _unit)) then {
-        [_unit, backpackContainer _unit, QGVAR(backpackContainer)] call _fnc_Handle;
+
+    private _backpackContainer = backpackContainer _unit;
+    if (_unit getVariable [QGVAR(backpackContainer), objNull] isNotEqualTo _backpackContainer) then {
+        [_unit, _backpackContainer, QGVAR(backpackContainer)] call _fnc_Handle;
+    } else {
+        if (!isNull _backpackContainer && {!(_backpackContainer getVariable [QGVAR(active), false])}) then {
+            [_unit, _backpackContainer, QGVAR(backpackContainer)] call _fnc_container;
+        };
     };
 };

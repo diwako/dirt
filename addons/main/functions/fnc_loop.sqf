@@ -86,6 +86,8 @@ if (GVAR(farPFH) isEqualTo -1) then {
 {
     private _display = findDisplay _x;
     if (isNull _display) then {continue};
+    private _text = format ["Orphaned display has been found: %1", _x];
+    LOG(_text);
     _display setVariable [QGVAR(name), _x];
     _display setVariable [QGVAR(unit), nil];
     _display setVariable [QGVAR(container), nil];
