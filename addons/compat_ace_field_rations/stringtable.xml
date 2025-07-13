@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="qte_ace">
+    <Package name="compat_ace_field_rations">
+        <Key ID="STR_DIRT_COMPAT_ACE_FIELD_RATIONS_washwithbottle">
+            <English>Wash dirt away</English>
+        </Key>
+        <Key ID="STR_DIRT_COMPAT_ACE_FIELD_RATIONS_allowACEXWaterToCleanDirt">
+            <English>Allow washing with water bottles</English>
+        </Key>
+        <Key ID="STR_DIRT_COMPAT_ACE_FIELD_RATIONS_allowACEXWaterToCleanDirt_desc">
+            <English>Allows the use of ACEX field ration liquids to wash away the dirt</English>
+        </Key>
+    </Package>
+</Project>

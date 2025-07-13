@@ -7,6 +7,9 @@
         <Key ID="STR_DIRT_main_subcategoryTextures">
             <English>Textures</English>
         </Key>
+        <Key ID="STR_DIRT_main_subcategoryMisc">
+            <English>Miscellaneous</English>
+        </Key>
         <Key ID="STR_DIRT_main_enable">
             <English>Enable</English>
         </Key>
@@ -75,6 +78,12 @@
         </Key>
         <Key ID="STR_DIRT_main_burndecrease_desc">
             <English>Amount of burn effect to be removed</English>
+        </Key>
+        <Key ID="STR_DIRT_main_precipitationDecreaseDirt">
+            <English>Water affects dirt</English>
+        </Key>
+        <Key ID="STR_DIRT_main_precipitationDecreaseDirt_desc">
+            <English>When being exposed to rain or being in water, dirt washes off faster</English>
         </Key>
     </Package>
 </Project>

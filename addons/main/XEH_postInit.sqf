@@ -59,4 +59,29 @@ player addEventHandler ["Respawn", {
     _unit setVariable [QGVAR(active), nil];
 }];
 
+[QGVAR(adjustValues), {
+    params ["_unit", "_values"];
+    {
+        _x params ["_name", "_newValue"];
+        private _index = GVAR(effectsHandlers) findIf {(_x select 0) == _name};
+        if (_index isEqualTo -1) then {
+            private _text = format ["Refused to set new texture effect value, no effect handler found: %1", _name];
+            LOG(_text);
+            continue;
+        };
+        (GVAR(effectsHandlers) select _index) params ["", "", "_idc", "", "_affectBackpack", ""];
+        _newValue = 0 max _newValue min 1;
+        _unit setVariable [format [QGVAR(%1Value), _name], _newValue];
+        {
+            if (_x getVariable [QGVAR(isForBackpack), false] && !_affectBackpack) then {
+                continue
+            };
+            private _ctrl = _x displayCtrl _idc;
+            _ctrl ctrlSetFade _newValue;
+            _ctrl ctrlCommit GVAR(updateFrequency);
+        } forEach (_unit getVariable [QGVAR(displays), []]);
+    } forEach _values;
+    _unit setVariable [QGVAR(updateTextures), true];
+}] call CBA_fnc_addEventHandler;
+
 [FUNC(loop), [], 1] call CBA_fnc_waitAndExecute;
