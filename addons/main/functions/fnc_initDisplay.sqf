@@ -10,7 +10,7 @@ if (isNull (_display displayCtrl IDC_BASE)) then {
 
     {
         _ctrl = _display ctrlCreate ["ctrlStaticPicture", _x select 2];
-        _ctrl ctrlSetPosition [-0.5, -0.5, 1.5, 1.5];
+        _ctrl ctrlSetPosition [-0.21, -0.21, 1.42, 1.42];
     } forEach GVAR(effectsHandlers)
 };
 
