@@ -38,6 +38,10 @@ workshop = [
     "3499977893", # Advanced developer tools
 ]
 parameters = ["-world=empty"]
+# dlc = [
+#     "spe",
+#     "ws",
+# ]
 
 [hemtt.launch.winter]
 extends = "default"

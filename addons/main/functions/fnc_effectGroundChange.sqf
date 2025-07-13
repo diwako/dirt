@@ -11,6 +11,9 @@ if ((stance _unit isEqualTo "PRONE" || !((lifeState _unit) in ["HEALTHY", "INJUR
         _curGroundValue = (_curGroundValue - (GVAR(groundIncrease) + GVAR(groundIncrease) * 3 * humidity)) max 0;
     };
 } else {
+    if (GVAR(precipitationDecreaseDirt) && {!(rainParams select 15)}) then {
+        _curGroundValue = _curGroundValue + (GVAR(groundDecrease) * (_unit getVariable [QGVAR(precitipationModifier), 0]));
+    };
     _curGroundValue = (_curGroundValue + GVAR(groundDecrease)) min 1;
 };
 

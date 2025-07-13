@@ -1,7 +1,7 @@
-
 #define CBA_SETTINGS_CAT LSTRING(Category)
 #define GENERAL_SUB_CAT format ["1: %1", localize "str_general"]
 #define TEXTURES_SUB_CAT format ["2: %1", LLSTRING(subcategoryTextures)]
+#define MISC_SUB_CAT format ["3: %1", LLSTRING(subcategoryMisc)]
 
 [
     QGVAR(enable),
@@ -97,5 +97,14 @@
     [LSTRING(burnDecrease), LSTRING(burnDecrease_desc)],
     [CBA_SETTINGS_CAT, TEXTURES_SUB_CAT],
     [0.0001, 1, 0.003, 4],
+    false
+] call cba_settings_fnc_init;
+
+[
+    QGVAR(precipitationDecreaseDirt),
+    "CHECKBOX",
+    [LSTRING(precipitationDecreaseDirt), LSTRING(precipitationDecreaseDirt_desc)],
+    [CBA_SETTINGS_CAT, MISC_SUB_CAT],
+    true,
     false
 ] call cba_settings_fnc_init;

@@ -11,7 +11,8 @@ if !(GVAR(enable)) exitWith {
 // check for savegame load, displays become null then
 if (GVAR(displays) isNotEqualTo [] && {isNull (GVAR(displays) select 0)}) exitWith {
     [{
-        // systemChat "Save game detected";
+        private _text = "Save game detected";
+        LOG(_text);
         {
             [_x] call FUNC(resetUnit);
         } forEach GVAR(unitsAll);
