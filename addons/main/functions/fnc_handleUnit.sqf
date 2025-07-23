@@ -29,12 +29,11 @@ private _fnc_container = {
             _texturesSelections = getArray ((configOf _container) >> "hiddenSelections");
         };
 
-
         {
-            if ((toLower _x) in CAMO_IDS) then {
+            if ((toLower _x) in CAMO_IDS && {(_textures select _forEachIndex) isNotEqualTo ""}) then {
                 _textureInfo pushBack [_forEachIndex, _textures select _forEachIndex, displayNull];
             };
-        } forEach _texturesSelections;
+        } forEach (_texturesSelections select [0, (count _texturesSelections) min (count _textures)]);
 
         _container setVariable [QGVAR(textures), _textureInfo];
         _container setVariable [QGVAR(displays), []];
