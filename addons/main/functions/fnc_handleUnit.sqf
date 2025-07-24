@@ -21,9 +21,11 @@ private _fnc_container = {
             if (_textures isEqualTo []) then {
                 _textures = getObjectTextures _unit;
             };
-            _texturesSelections = getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelections");
+            private _uniformVehicle = getText (configFile >> "CfgWeapons" >> (uniform _unit) >> "ItemInfo" >> "uniformClass");
+            _texturesSelections = getArray (configFile >> "CfgVehicles" >> _uniformVehicle >> "hiddenSelections");
+
             if (_texturesSelections isEqualTo []) then {
-                _texturesSelections = getArray (configFile >> "CfgVehicles" >> (uniform _unit) >> "hiddenSelections");
+                _texturesSelections = getArray (configFile >> "CfgWeapons" >> (uniform _unit) >> "hiddenSelections");
             };
         } else {
             _texturesSelections = getArray ((configOf _container) >> "hiddenSelections");
