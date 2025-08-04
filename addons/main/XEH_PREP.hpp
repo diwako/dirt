@@ -2,6 +2,7 @@ PREP(loop);
 PREP(dressDownContainer);
 PREP(initDisplay);
 PREP(isRainOrSnow);
+PREP(handleExplosionEH);
 PREP(handleUnit);
 PREP(handleState);
 PREP(modLoaded);

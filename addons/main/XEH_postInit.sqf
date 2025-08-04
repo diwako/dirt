@@ -1,23 +1,28 @@
 #include "script_component.hpp"
-
 if (is3DEN) exitWith {};
 
-["CAManBase", "Explosion", {
-    if !(GVAR(explosionEH)) exitWith {};
-    params ["_unit", "_damage"];
-    private _changes = [];
-    _damage = _damage * 2;
-    private _groundType = ["groundDirt", "groundSnow"] select (call FUNC(isRainOrSnow));
-    private _currentValue = _unit getVariable [format [QGVAR(%1Value), _groundType], 1];
-    _changes pushBack [_groundType, _currentValue - _damage];
-
-    if (_damage > 0.5) then {
-        _currentValue = _unit getVariable [format [QGVAR(%1Value), "burn"], 1];
-        _changes pushBack ["burn", _currentValue - (_damage / 2)];
+{
+    _x addEventHandler ["Explode", {
+    params ["_projectile"];
+    if ((netId _projectile) == "0:0") then {
+        [QGVAR(explosionEH), _this] call CBA_fnc_localEvent;
+    } else {
+        [QGVAR(explosionEH), _this] call CBA_fnc_globalEvent;
     };
-
-    [QGVAR(adjustValues), [_unit, _changes]] call CBA_fnc_globalEvent;
-}] call CBA_fnc_addClassEventHandler;
+}];
+} forEach ((8 allObjects 2) select {local _x});
+addMissionEventHandler ["ProjectileCreated", {
+    params ["_projectile"];
+    if !(local _projectile) exitWith {};
+    _projectile addEventHandler ["Explode", {
+        params ["_projectile"];
+        if ((netId _projectile) == "0:0") then {
+            [QGVAR(explosionEH), _this] call CBA_fnc_localEvent;
+        } else {
+            [QGVAR(explosionEH), _this] call CBA_fnc_globalEvent;
+        };
+    }];
+}];
 
 if !(hasInterface) exitWith {};
 
@@ -103,5 +108,7 @@ player addEventHandler ["Respawn", {
     } forEach _values;
     _unit setVariable [QGVAR(updateTextures), true];
 }] call CBA_fnc_addEventHandler;
+
+[QGVAR(explosionEH), {call FUNC(handleExplosionEH)}] call CBA_fnc_addEventHandler;
 
 [FUNC(loop), [], 1] call CBA_fnc_waitAndExecute;
