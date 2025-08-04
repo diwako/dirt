@@ -32,3 +32,5 @@ if (_replacementItem != "") then {
     ["groundDirt", _newValueDirt],
     ["precipitationRain", _newValueWater]
 ]]] call CBA_fnc_globalEvent;
+
+["dirt_washed", [_unit, _modifier, _item]] call CBA_fnc_localEvent;
