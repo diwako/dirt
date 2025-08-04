@@ -1,5 +1,25 @@
 #include "script_component.hpp"
-if (is3DEN || !hasInterface) exitWith {};
+
+if (is3DEN) exitWith {};
+
+["CAManBase", "Explosion", {
+    if !(GVAR(explosionEH)) exitWith {};
+    params ["_unit", "_damage"];
+    private _changes = [];
+    _damage = _damage * 2;
+    private _groundType = ["groundDirt", "groundSnow"] select (call FUNC(isRainOrSnow));
+    private _currentValue = _unit getVariable [format [QGVAR(%1Value), _groundType], 1];
+    _changes pushBack [_groundType, _currentValue - _damage];
+
+    if (_damage > 0.5) then {
+        _currentValue = _unit getVariable [format [QGVAR(%1Value), "burn"], 1];
+        _changes pushBack ["burn", _currentValue - (_damage / 2)];
+    };
+
+    [QGVAR(adjustValues), [_unit, _changes]] call CBA_fnc_globalEvent;
+}] call CBA_fnc_addClassEventHandler;
+
+if !(hasInterface) exitWith {};
 
 GVAR(unitsAll) = [];
 GVAR(unitsFar) = [];

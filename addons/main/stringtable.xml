@@ -85,5 +85,11 @@
         <Key ID="STR_DIRT_main_precipitationDecreaseDirt_desc">
             <English>When being exposed to rain or being in water, dirt washes off faster</English>
         </Key>
+        <Key ID="STR_DIRT_main_explosionEH">
+            <English>Explosion Handling</English>
+        </Key>
+        <Key ID="STR_DIRT_main_explosionEH_desc">
+            <English>Nearby explosions add to texture opacity, such as for dirt, snow or burn textures</English>
+        </Key>
     </Package>
 </Project>

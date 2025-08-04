@@ -108,3 +108,11 @@
     true,
     false
 ] call cba_settings_fnc_init;
+[
+    QGVAR(explosionEH),
+    "CHECKBOX",
+    [LSTRING(explosionEH), LSTRING(explosionEH_desc)],
+    [CBA_SETTINGS_CAT, MISC_SUB_CAT],
+    true,
+    false
+] call cba_settings_fnc_init;
