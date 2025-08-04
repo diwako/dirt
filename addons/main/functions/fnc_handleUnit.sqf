@@ -18,6 +18,10 @@ private _fnc_container = {
         private _texturesSelections = [];
 
         if ("uniform" in _var) then {
+            // A3TI Compat
+            if ((_unit getVariable ["A3TI_oldTextAndMat", []]) isNotEqualTo []) then {
+                _textures = (_unit getVariable ["A3TI_oldTextAndMat",[]]) select 0;
+            };
             if (_textures isEqualTo []) then {
                 _textures = getObjectTextures _unit;
             };
@@ -72,11 +76,17 @@ private _fnc_container = {
                 (_container getVariable QGVAR(displays)) pushBack _display;
                 GVAR(displays) pushBack _display;
                 _display setVariable [QGVAR(name), _displayName];
+                _container setVariable [QGVAR(unit), _unit];
                 _display setVariable [QGVAR(unit), _unit];
                 _display setVariable [QGVAR(container), _container];
                 _display setVariable [QGVAR(definition), format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _displayName]];
                 [_display, _baseTexture, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
-                _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
+                // A3TI Compat
+                if ("uniform" in _var && {(_unit getVariable ["A3TI_oldTextAndMat", []]) isNotEqualTo []}) then {
+                    ((_unit getVariable ["A3TI_oldTextAndMat", []]) select 0) set [_index, _display getVariable QGVAR(definition)]
+                } else {
+                    _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
+                };
                 deleteVehicle _helperObject;
             }, [_unit, _container, _displayName, _texture, _helperObject, _index, _var], 10, {
                 params ["", "_container", "_displayName"];
@@ -92,10 +102,16 @@ private _fnc_container = {
             _x set [2, _display];
             (_unit getVariable QGVAR(displays)) pushBackUnique _display;
             (_container getVariable QGVAR(displays)) pushBackUnique _display;
+            _container setVariable [QGVAR(unit), _unit];
             _display setVariable [QGVAR(unit), _unit];
             _display setVariable [QGVAR(container), _container];
             [_display, _texture, _container getVariable QGVAR(rotation), _container getVariable QGVAR(rotationOffset), "backpack" in _var, _unit] call FUNC(initDisplay);
-            _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
+            // A3TI Compat
+            if ("uniform" in _var && {(_unit getVariable ["A3TI_oldTextAndMat", []]) isNotEqualTo []}) then {
+                ((_unit getVariable ["A3TI_oldTextAndMat", []]) select 0) set [_index, _display getVariable QGVAR(definition)]
+            } else {
+                _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
+            };
         };
     } forEach _textureInfo;
 

@@ -49,3 +49,9 @@ extends = "default"
 workshop = [
     "1291778160", # Hellanmaa
 ]
+
+[hemtt.launch.a3ti]
+extends = "default"
+workshop = [
+    "2041057379", # a3ti
+]
