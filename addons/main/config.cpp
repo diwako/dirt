@@ -26,12 +26,12 @@ class dirt_textures_man {
     class groundDirt : burn {
         textures[] = {QPATHTOF(textures\dirtierer_ca.paa)};
         function = QFUNC(effectGroundChange);
-        condition = "!(rainParams select 15)";
+        condition = QUOTE(!(call FUNC(isRainOrSnow)));
     };
     class groundSnow : groundDirt {
         textures[] = {QPATHTOF(textures\snow_ca.paa)};
         function = QFUNC(effectGroundChange);
-        condition = "rainParams select 15";
+        condition = QFUNC(isRainOrSnow);
     };
     class precipitationRain : groundDirt {
         textures[] = {QPATHTOF(textures\water_ca.paa)};

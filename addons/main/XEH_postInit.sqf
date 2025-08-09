@@ -1,5 +1,30 @@
 #include "script_component.hpp"
-if (is3DEN || !hasInterface) exitWith {};
+if (is3DEN) exitWith {};
+
+{
+    _x addEventHandler ["Explode", {
+    params ["_projectile"];
+    if ((netId _projectile) == "0:0") then {
+        [QGVAR(explosionEH), _this] call CBA_fnc_localEvent;
+    } else {
+        [QGVAR(explosionEH), _this] call CBA_fnc_globalEvent;
+    };
+}];
+} forEach ((8 allObjects 2) select {local _x});
+addMissionEventHandler ["ProjectileCreated", {
+    params ["_projectile"];
+    if !(local _projectile) exitWith {};
+    _projectile addEventHandler ["Explode", {
+        params ["_projectile"];
+        if ((netId _projectile) == "0:0") then {
+            [QGVAR(explosionEH), _this] call CBA_fnc_localEvent;
+        } else {
+            [QGVAR(explosionEH), _this] call CBA_fnc_globalEvent;
+        };
+    }];
+}];
+
+if !(hasInterface) exitWith {};
 
 GVAR(unitsAll) = [];
 GVAR(unitsFar) = [];
@@ -83,5 +108,7 @@ player addEventHandler ["Respawn", {
     } forEach _values;
     _unit setVariable [QGVAR(updateTextures), true];
 }] call CBA_fnc_addEventHandler;
+
+[QGVAR(explosionEH), {call FUNC(handleExplosionEH)}] call CBA_fnc_addEventHandler;
 
 [FUNC(loop), [], 1] call CBA_fnc_waitAndExecute;

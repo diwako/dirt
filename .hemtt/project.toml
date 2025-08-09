@@ -36,6 +36,7 @@ workshop = [
     "450814997",  # CBA_A3's Workshop ID
     "463939057",  # ACE3
     "3499977893", # Advanced developer tools
+    "1779063631", # Zeus Enhanced
 ]
 parameters = ["-world=empty"]
 dlc = [
