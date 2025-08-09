@@ -73,7 +73,7 @@ private _effectIndex = 2;
     _effectIndex = _effectIndex + 1;
 } forEach ("true" configClasses (missionConfigFile >> "dirt_textures_man"));
 
-player addEventHandler ["Respawn", {
+["CAManBase", "Respawn", {
     params ["_unit"];
     {
         _unit setVariable [format [QGVAR(%1Value), _x select 0], nil];
@@ -82,7 +82,7 @@ player addEventHandler ["Respawn", {
     _unit setVariable [QGVAR(uniformContainer), nil];
     _unit setVariable [QGVAR(backpackContainer), nil];
     _unit setVariable [QGVAR(active), nil];
-}];
+}] call CBA_fnc_addClassEventHandler;
 
 [QGVAR(adjustValues), {
     params ["_unit", "_values"];
