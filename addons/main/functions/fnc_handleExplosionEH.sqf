@@ -1,4 +1,5 @@
 #include "..\script_component.hpp"
+if !(GVAR(explosionEH)) exitWith {};
 params ["_projectile", "_pos"];
 
 private _ammoConfig = configOf _projectile;
