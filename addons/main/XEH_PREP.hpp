@@ -1,4 +1,5 @@
 PREP(loop);
+PREP(cachedCondition);
 PREP(dressDownContainer);
 PREP(initDisplay);
 PREP(isRainOrSnow);

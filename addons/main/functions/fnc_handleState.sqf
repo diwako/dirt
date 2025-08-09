@@ -3,8 +3,8 @@ params ["_unit"];
 
 private _updateArr = [];
 {
-    _x params ["_name", "_fnc", "_idc", "", "_affectBackpack", "_condition"];
-    if !(_unit call _condition) then {continue};
+    _x params ["_name", "_fnc", "_idc", "", "_affectBackpack", "_condition", "_conditionRefresh"];
+    if !([_unit, _name, _condition, _conditionRefresh] call FUNC(cachedCondition)) then {continue};
     private _curValue = _unit getVariable [format [QGVAR(%1Value), _name], 1];
     private _newValue = 0 max ([_unit, _curValue] call _fnc) min 1;
     if (_curValue isNotEqualTo _newValue) then {
