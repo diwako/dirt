@@ -57,7 +57,8 @@ private _effectIndex = 2;
         _effectIndex,
         getArray (_x >> "textures"),
         (getNumber (_x >> "affectBackpack")) isEqualTo 1,
-        (getText (_x >> "condition")) call _fnc_evaluateCondition
+        (getText (_x >> "condition")) call _fnc_evaluateCondition,
+        getNumber (_x >> "conditionRefresh")
     ];
     _effectIndex = _effectIndex + 1;
 } forEach ("true" configClasses (configFile >> "dirt_textures_man"));
@@ -68,7 +69,8 @@ private _effectIndex = 2;
         _effectIndex,
         (getArray (_x >> "textures")) apply {getMissionPath _x},
         (getNumber (_x >> "affectBackpack")) isEqualTo 1,
-        (getText (_x >> "condition")) call _fnc_evaluateCondition
+        (getText (_x >> "condition")) call _fnc_evaluateCondition,
+        getNumber (_x >> "conditionRefresh")
     ];
     _effectIndex = _effectIndex + 1;
 } forEach ("true" configClasses (missionConfigFile >> "dirt_textures_man"));

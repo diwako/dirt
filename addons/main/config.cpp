@@ -21,6 +21,7 @@ class dirt_textures_man {
         textures[] = {QPATHTOF(textures\burnt_ca.paa)};
         function = QFUNC(effectBurnChange);
         condition = "";
+        conditionRefresh = 60;
         affectBackpack = 1;
     };
     class groundDirt : burn {

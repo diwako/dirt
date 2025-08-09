@@ -44,6 +44,7 @@ dlc = [
     # "ws",
     # "vn",
 ]
+mission = "dirt.Malden"
 
 [hemtt.launch.winter]
 extends = "default"
