@@ -9,6 +9,7 @@ private _maxRange = ((getNumber (_ammoConfig >> "indirectHit")) / 3) * (getNumbe
 private _units = (GVAR(unitsAll) inAreaArray [ASLToAGL _pos, _maxRange, _maxRange, 0, false, _maxRange]) select {
     simulationEnabled _x &&
     ({GVAR(affectAI) || {isPlayer _x}}) &&
+    {isNull objectParent _x} &&
     {!(_x getVariable ["dirt_ignore", false])}
 };
 if (_units isEqualTo []) exitWith {};
