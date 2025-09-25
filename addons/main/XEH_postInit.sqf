@@ -77,9 +77,9 @@ private _effectIndex = 2;
 
 ["CAManBase", "Respawn", {
     params ["_unit"];
-    {
-        _unit setVariable [format [QGVAR(%1Value), _x select 0], nil];
-    } forEach GVAR(effectsHandlers);
+    if !(local _unit) exitWith {};
+    private _arr = GVAR(effectsHandlers) apply {[_x select 0]};
+    [QGVAR(adjustValues), [_unit, _arr]] call CBA_fnc_globalEvent;
     _unit setVariable [QGVAR(displays), nil];
     _unit setVariable [QGVAR(uniformContainer), nil];
     _unit setVariable [QGVAR(backpackContainer), nil];
@@ -89,7 +89,7 @@ private _effectIndex = 2;
 [QGVAR(adjustValues), {
     params ["_unit", "_values"];
     {
-        _x params ["_name", "_newValue"];
+        _x params ["_name", ["_newValue", 1]];
         private _index = GVAR(effectsHandlers) findIf {(_x select 0) == _name};
         if (_index isEqualTo -1) then {
             private _text = format ["Refused to set new texture effect value, no effect handler found: %1", _name];
