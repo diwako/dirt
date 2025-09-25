@@ -36,6 +36,14 @@
     false
 ] call cba_settings_fnc_init;
 [
+    QGVAR(preWarmUp),
+    "CHECKBOX",
+    [LSTRING(preWarmUp), LSTRING(preWarmUp_desc)],
+    [CBA_SETTINGS_CAT, GENERAL_SUB_CAT],
+    true,
+    false
+] call cba_settings_fnc_init;
+[
     QGVAR(maxDistance),
     "SLIDER",
     [LSTRING(maxDistance), LSTRING(maxDistance_desc)],

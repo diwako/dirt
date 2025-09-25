@@ -113,4 +113,47 @@ private _effectIndex = 2;
 
 [QGVAR(explosionEH), {call FUNC(handleExplosionEH)}] call CBA_fnc_addEventHandler;
 
-[FUNC(loop), [], 1] call CBA_fnc_waitAndExecute;
+if (GVAR(preWarmUp)) then {
+    for "_i" from 0 to (GVAR(maxDynTextures) - 1) do {
+        [{
+            params ["_i"];
+            private _helperObject = createSimpleObject ["Sign_Sphere10cm_F", [0,0,0], true];
+            _helperObject setObjectMaterial [0, "a3\structures_f_bootcamp\vr\coverobjects\data\vr_coverobject_basic.rvmat"];
+            _helperObject setObjectScale 0.1;
+
+            private _displayName = format["dirt_textures§%1", _i];
+            _helperObject setObjectTexture [0, format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _displayName]];
+            [{
+                params ["_displayName", "_helperObject"];
+
+                // _helperObject setPosASL (AGLToASL positionCameraToWorld [0,0.5,1]);
+                _helperObject setPosASL (AGLToASL positionCameraToWorld [0,random 1, random 1]);
+                !(isNull findDisplay _displayName)
+            }, {
+                params ["_displayName", "_helperObject"];
+                private _display = findDisplay _displayName;
+                GVAR(displays) pushBack _display;
+                _display setVariable [QGVAR(name), _displayName];
+                _display setVariable [QGVAR(definition), format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _displayName]];
+                deleteVehicle _helperObject;
+                GVAR(displaysTotal) = GVAR(displaysTotal) + 1;
+            }, [_displayName, _helperObject], 10, {
+                params ["_displayName", "_helperObject"];
+                private _text = format ["Display has not been found in time, is now orphaned: %1", _displayName];
+                // systemChat _text;
+                LOG(_text);
+                GVAR(orphanedDisplays) pushBack _displayName;
+                GVAR(displaysTotal) = GVAR(displaysTotal) + 1;
+                deleteVehicle _helperObject;
+            }] call CBA_fnc_waitUntilAndExecute
+        }, [_i], 0.03 * _i] call CBA_fnc_waitAndExecute;
+    };
+    [{
+        // systemChat format ["textures: %1 (%3) | %2", GVAR(displaysTotal), GVAR(maxDynTextures), count GVAR(displays)];
+        GVAR(maxDynTextures) isEqualTo GVAR(displaysTotal)
+    }, {
+        [FUNC(loop), [], 1] call CBA_fnc_waitAndExecute;
+    }] call CBA_fnc_waitUntilAndExecute
+} else {
+    [FUNC(loop), [], 1] call CBA_fnc_waitAndExecute;
+};
