@@ -89,12 +89,13 @@ private _fnc_container = {
                 };
                 deleteVehicle _helperObject;
             }, [_unit, _container, _displayName, _texture, _helperObject, _index, _var], 10, {
-                params ["", "_container", "_displayName"];
+                params ["", "_container", "_displayName", "", "_helperObject"];
                 // systemChat format ["%1 could not find %2", time, _displayName];
                 private _text = format ["Display has not been found in time, is now orphaned: %1", _displayName];
                 LOG(_text);
                 GVAR(orphanedDisplays) pushBack _displayName;
                 _container setVariable [QGVAR(active), nil];
+                deleteVehicle _helperObject;
             }] call CBA_fnc_waitUntilAndExecute
         } else {
             // reuse an old display

@@ -100,7 +100,7 @@ class CustomAttributes
 								singleType="ARRAY";
 								class value
 								{
-									items=3;
+									items=4;
 									class Item0
 									{
 										class data
@@ -125,6 +125,14 @@ class CustomAttributes
 											value="dirt_main_burnincrease";
 										};
 									};
+									class Item3
+									{
+										class data
+										{
+											singleType="STRING";
+											value="dirt_main_prewarmup";
+										};
+									};
 								};
 							};
 						};
@@ -135,7 +143,7 @@ class CustomAttributes
 								singleType="ARRAY";
 								class value
 								{
-									items=3;
+									items=4;
 									class Item0
 									{
 										class data
@@ -204,6 +212,33 @@ class CustomAttributes
 													{
 														singleType="SCALAR";
 														value=1;
+													};
+												};
+												class Item1
+												{
+													class data
+													{
+														singleType="SCALAR";
+														value=1;
+													};
+												};
+											};
+										};
+									};
+									class Item3
+									{
+										class data
+										{
+											singleType="ARRAY";
+											class value
+											{
+												items=2;
+												class Item0
+												{
+													class data
+													{
+														singleType="BOOL";
+														value=0;
 													};
 												};
 												class Item1
@@ -486,7 +521,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={10299.014,4.0462608,4263.0708};
-						angles[]={0,4.7885346,-0};
+						angles[]={0,4.7885346,0};
 					};
 					side="Civilian";
 					flags=7;

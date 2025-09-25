@@ -25,6 +25,12 @@
         <Key ID="STR_DIRT_main_updateFrequency_desc">
             <English>Time in seconds when ever checks should run. Affects speed of textures being applies as well.</English>
         </Key>
+        <Key ID="STR_DIRT_main_preWarmUp">
+            <English>Pre-Warm up textures</English>
+        </Key>
+        <Key ID="STR_DIRT_main_preWarmUp_desc">
+            <English>When enabled fill the dynamic texture pool first, before main routine starts. Might help with wrong textures being applied in the beginning.</English>
+        </Key>
         <Key ID="STR_DIRT_main_maxdyntextures">
             <English>Maximum of dynamic textures</English>
         </Key>
