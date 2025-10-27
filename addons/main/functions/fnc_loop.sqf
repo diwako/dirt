@@ -12,7 +12,7 @@ if !(GVAR(enable)) exitWith {
 if (GVAR(displays) isNotEqualTo [] && {isNull (GVAR(displays) select 0)}) exitWith {
     [{
         private _text = "Save game detected";
-        LOG(_text);
+        INFO(_text);
         {
             [_x] call FUNC(resetUnit);
         } forEach GVAR(unitsAll);
@@ -85,14 +85,20 @@ if (GVAR(farPFH) isEqualTo -1) then {
 // sometimes the displays take a while to initialize
 // often the player was not looking at the unit
 {
-    private _display = findDisplay _x;
-    if (isNull _display) then {continue};
-    private _text = format ["Orphaned display has been found: %1", _x];
-    LOG(_text);
-    _display setVariable [QGVAR(name), _x];
+    _x params ["_displayName", "_helperObject"];
+    private _display = findDisplay _displayName;
+    if (isNull _display) then {
+        _helperObject setPosASL (AGLToASL positionCameraToWorld [0,random 1, random 1]);
+        continue
+    };
+    private _text = format ["Orphaned display has been found: %1", _displayName];
+    // systemChat _text;
+    INFO(_text);
+    _display setVariable [QGVAR(name), _displayName];
     _display setVariable [QGVAR(unit), nil];
     _display setVariable [QGVAR(container), nil];
-    _display setVariable [QGVAR(definition), format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _x]];
+    _display setVariable [QGVAR(definition), format ['#(argb,2048,2048,1)ui("RscDisplayEmpty","%1","ca")', _displayName]];
     GVAR(displays) pushBackUnique _display;
+    deleteVehicle _helperObject;
     GVAR(orphanedDisplays) deleteAt _forEachIndex;
 } forEachReversed GVAR(orphanedDisplays);

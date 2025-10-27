@@ -93,7 +93,7 @@ private _effectIndex = 2;
         private _index = GVAR(effectsHandlers) findIf {(_x select 0) == _name};
         if (_index isEqualTo -1) then {
             private _text = format ["Refused to set new texture effect value, no effect handler found: %1", _name];
-            LOG(_text);
+            INFO(_text);
             continue;
         };
         (GVAR(effectsHandlers) select _index) params ["", "", "_idc", "", "_affectBackpack", ""];
@@ -141,10 +141,9 @@ if (GVAR(preWarmUp)) then {
                 params ["_displayName", "_helperObject"];
                 private _text = format ["Display has not been found in time, is now orphaned: %1", _displayName];
                 // systemChat _text;
-                LOG(_text);
-                GVAR(orphanedDisplays) pushBack _displayName;
+                INFO(_text);
+                GVAR(orphanedDisplays) pushBack [_displayName, _helperObject];
                 GVAR(displaysTotal) = GVAR(displaysTotal) + 1;
-                deleteVehicle _helperObject;
             }] call CBA_fnc_waitUntilAndExecute
         }, [_i], 0.03 * _i] call CBA_fnc_waitAndExecute;
     };
