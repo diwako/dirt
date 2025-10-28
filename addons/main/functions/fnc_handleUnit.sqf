@@ -119,18 +119,7 @@ private _fnc_container = {
     _unit setVariable [QGVAR(updateTextures), true];
 };
 
-if !(_unit getVariable [QGVAR(active), false]) then {
-    _unit setVariable [QGVAR(active), true];
-    _unit setVariable [QGVAR(displays), []];
-
-    // step 2, add displays to containers
-    if (uniform _unit isNotEqualTo "") then {
-        [_unit, uniformContainer _unit, QGVAR(uniformContainer)] call _fnc_container;
-    };
-    if (backpack _unit isNotEqualTo "") then {
-        [_unit, backpackContainer _unit, QGVAR(backpackContainer)] call _fnc_container;
-    };
-} else {
+if (_unit getVariable [QGVAR(active), false]) then {
     // check if the backpack or uniform has changed
     private _fnc_Handle = {
         params ["_unit", "_container", "_var"];
@@ -165,5 +154,16 @@ if !(_unit getVariable [QGVAR(active), false]) then {
         if (!isNull _backpackContainer && {!(_backpackContainer getVariable [QGVAR(active), false])}) then {
             [_unit, _backpackContainer, QGVAR(backpackContainer)] call _fnc_container;
         };
+    };
+} else {
+    _unit setVariable [QGVAR(active), true];
+    _unit setVariable [QGVAR(displays), []];
+
+    // step 2, add displays to containers
+    if (uniform _unit isNotEqualTo "") then {
+        [_unit, uniformContainer _unit, QGVAR(uniformContainer)] call _fnc_container;
+    };
+    if (backpack _unit isNotEqualTo "") then {
+        [_unit, backpackContainer _unit, QGVAR(backpackContainer)] call _fnc_container;
     };
 };
