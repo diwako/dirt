@@ -7,7 +7,9 @@ private _fnc_container = {
     if (isNull _container) exitWith {
         _unit setVariable [_var, _container];
     };
-    if (GVAR(displaysTotal) >= GVAR(maxDynTextures) && {GVAR(freeDisplays) isEqualTo []}) exitWith {};
+    if (GVAR(displaysTotal) >= GVAR(maxDynTextures) && {GVAR(freeDisplays) isEqualTo []}) exitWith {
+        _unit setVariable [QGVAR(partial), true];
+    };
     if ((_container getVariable [QGVAR(rotation), -1]) isEqualTo -1) then {
         _container setVariable [QGVAR(rotation), random 360];
         _container setVariable [QGVAR(rotationOffset), random 360];
@@ -53,6 +55,7 @@ private _fnc_container = {
             // generate a new display
             if (GVAR(displaysTotal) >= GVAR(maxDynTextures)) then {
                 _container setVariable [QGVAR(active), nil];
+                _unit setVariable [QGVAR(partial), true];
                 continue
             };
 
@@ -113,6 +116,7 @@ private _fnc_container = {
             } else {
                 _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
             };
+            _unit setVariable [QGVAR(partial), nil];
         };
     } forEach _textureInfo;
 
