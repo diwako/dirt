@@ -9,6 +9,7 @@ PREP(handleState);
 PREP(modLoaded);
 PREP(resetUnit);
 PREP(updateTextures);
+PREP(getTextureInformation);
 
 PREP(effectGroundChange);
 PREP(effectBurnChange);

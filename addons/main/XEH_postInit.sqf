@@ -40,6 +40,8 @@ GVAR(farPFH) = -1;
 
 GVAR(effectsHandlers) = [];
 
+GVAR(textureCache) = createHashMap;
+
 private _fnc_evaluateCondition = {
     params ["_text"];
     if (_text isEqualTo "") exitWith { {true} };
