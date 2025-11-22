@@ -49,6 +49,12 @@
         <Key ID="STR_DIRT_main_maxdistanceanimations_desc">
             <English>Targets within this range will have their textures animated smoothly</English>
         </Key>
+        <Key ID="STR_DIRT_main_sortByDistance">
+            <English>Sort units by distance</English>
+        </Key>
+        <Key ID="STR_DIRT_main_sortByDistance_desc">
+            <English>Sorts the units by distance, makes sure that always the closest units get the dynamic textures applied. Might cause visible applying or pop in of textures when many units are around</English>
+        </Key>
         <Key ID="STR_DIRT_main_groundincrease">
             <English>Ground Effect Increment</English>
         </Key>

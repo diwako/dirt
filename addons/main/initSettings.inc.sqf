@@ -60,6 +60,14 @@
     false
 ] call cba_settings_fnc_init;
 [
+    QGVAR(sortByDistance),
+    "CHECKBOX",
+    [LSTRING(sortByDistance), LSTRING(sortByDistance_desc)],
+    [CBA_SETTINGS_CAT, GENERAL_SUB_CAT],
+    true,
+    false
+] call cba_settings_fnc_init;
+[
     QGVAR(groundIncrease),
     "SLIDER",
     [LSTRING(groundIncrease), LSTRING(groundIncrease_desc)],

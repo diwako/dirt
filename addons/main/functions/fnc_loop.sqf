@@ -37,6 +37,12 @@ _units = (_units inAreaArray [_camPos, GVAR(maxDistance), GVAR(maxDistance), 0, 
     [_x] call FUNC(resetUnit);
 } forEach (GVAR(unitsAll) select {!(_x in _units)});
 
+if (GVAR(sortByDistance)) then {
+    _units = _units apply {[_x distanceSqr _camPos, _x]};
+    _units sort true;
+    _units = _units apply {_x select 1};
+};
+
 private _freeDisplays = GVAR(displays) select {
     !(_x in GVAR(freeDisplays)) && {(
         isNull (_x getVariable [QGVAR(unit), objNull]) ||
@@ -51,6 +57,30 @@ if (_freeDisplays isNotEqualTo []) then {
     [_x] call FUNC(handleState);
     [_x] call FUNC(handleUnit);
 } forEach _units;
+
+if (GVAR(sortByDistance) && {GVAR(displaysTotal) >= GVAR(maxDynTextures)} && {GVAR(freeDisplays) isEqualTo []}) then {
+    private _offIndex = _units findIf {(_x getVariable [QGVAR(partial), false])};
+    if (_offIndex isNotEqualTo -1) then {
+        private _offSetUnits = _units select [_offIndex, 9999];
+        private _newUnits = _offSetUnits select {
+            _x getVariable [QGVAR(active), false] &&
+            !(_x getVariable [QGVAR(partial), false])
+        };
+        if (_newUnits isNotEqualTo []) then {
+            // systemChat format ["%1: Found partial units beyond inactive units, resetting inactive units to free up displays.", time];
+            [{
+                {
+                    [_x] call FUNC(resetUnit);
+                } forEach _this;
+            }, _newUnits, GVAR(updateFrequency) / 3] call CBA_fnc_waitAndExecute;
+            [{
+                {
+                    [_x] call FUNC(handleUnit);
+                } forEach _this;
+            }, _offSetUnits, GVAR(updateFrequency) / 2] call CBA_fnc_waitAndExecute;
+        };
+    };
+};
 
 private _unitsClose = _units inAreaArray [_camPos, GVAR(maxDistanceAnimations), GVAR(maxDistanceAnimations), 0, false, -1];
 GVAR(unitsAll) = _units;
