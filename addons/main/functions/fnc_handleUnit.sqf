@@ -93,12 +93,11 @@ private _fnc_container = {
                 deleteVehicle _helperObject;
             }, [_unit, _container, _displayName, _texture, _helperObject, _index, _var], 10, {
                 params ["", "_container", "_displayName", "", "_helperObject"];
-                // systemChat format ["%1 could not find %2", time, _displayName];
                 private _text = format ["Display has not been found in time, is now orphaned: %1", _displayName];
-                LOG(_text);
-                GVAR(orphanedDisplays) pushBack _displayName;
+                // systemChat _text;
+                INFO(_text);
+                GVAR(orphanedDisplays) pushBack [_displayName, _helperObject];
                 _container setVariable [QGVAR(active), nil];
-                deleteVehicle _helperObject;
             }] call CBA_fnc_waitUntilAndExecute
         } else {
             // reuse an old display
@@ -124,18 +123,7 @@ private _fnc_container = {
     _unit setVariable [QGVAR(updateTextures), true];
 };
 
-if !(_unit getVariable [QGVAR(active), false]) then {
-    _unit setVariable [QGVAR(active), true];
-    _unit setVariable [QGVAR(displays), []];
-
-    // step 2, add displays to containers
-    if (uniform _unit isNotEqualTo "") then {
-        [_unit, uniformContainer _unit, QGVAR(uniformContainer)] call _fnc_container;
-    };
-    if (backpack _unit isNotEqualTo "") then {
-        [_unit, backpackContainer _unit, QGVAR(backpackContainer)] call _fnc_container;
-    };
-} else {
+if (_unit getVariable [QGVAR(active), false]) then {
     // check if the backpack or uniform has changed
     private _fnc_Handle = {
         params ["_unit", "_container", "_var"];
@@ -170,5 +158,16 @@ if !(_unit getVariable [QGVAR(active), false]) then {
         if (!isNull _backpackContainer && {!(_backpackContainer getVariable [QGVAR(active), false])}) then {
             [_unit, _backpackContainer, QGVAR(backpackContainer)] call _fnc_container;
         };
+    };
+} else {
+    _unit setVariable [QGVAR(active), true];
+    _unit setVariable [QGVAR(displays), []];
+
+    // step 2, add displays to containers
+    if (uniform _unit isNotEqualTo "") then {
+        [_unit, uniformContainer _unit, QGVAR(uniformContainer)] call _fnc_container;
+    };
+    if (backpack _unit isNotEqualTo "") then {
+        [_unit, backpackContainer _unit, QGVAR(backpackContainer)] call _fnc_container;
     };
 };
