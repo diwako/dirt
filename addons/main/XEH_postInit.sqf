@@ -42,6 +42,11 @@ GVAR(effectsHandlers) = [];
 
 GVAR(textureCache) = createHashMap;
 
+GVAR(allowedSelections) = CAMO_IDS;
+{
+    GVAR(allowedSelections) pushBackUnique _x;
+} forEach (((GVAR(additionalSelections) splitString ",") select {_x isNotEqualTo ""}) apply {toLower _x});
+
 private _fnc_evaluateCondition = {
     params ["_text"];
     if (_text isEqualTo "") exitWith { {true} };

@@ -68,6 +68,14 @@
     false
 ] call cba_settings_fnc_init;
 [
+    QGVAR(additionalSelections),
+    "EDITBOX",
+    [LSTRING(additionalSelections), LSTRING(additionalSelections_desc)],
+    [CBA_SETTINGS_CAT, GENERAL_SUB_CAT],
+    "camo,camo2",
+    true
+] call cba_settings_fnc_init;
+[
     QGVAR(groundIncrease),
     "SLIDER",
     [LSTRING(groundIncrease), LSTRING(groundIncrease_desc)],

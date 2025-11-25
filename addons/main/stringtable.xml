@@ -55,6 +55,12 @@
         <Key ID="STR_DIRT_main_sortByDistance_desc">
             <English>Sorts the units by distance, makes sure that always the closest units get the dynamic textures applied. Might cause visible applying or pop in of textures when many units are around</English>
         </Key>
+        <Key ID="STR_DIRT_main_additionalSelections">
+            <English>Additional hiddenSelections</English>
+        </Key>
+        <Key ID="STR_DIRT_main_additionalSelections_desc">
+            <English>This is a very technical setting! Adds more entries of allowed hiddenSelection values dynamic textures can get applied to. Value must be comma separated strings without whitespaces and quotation marks.</English>
+        </Key>
         <Key ID="STR_DIRT_main_groundincrease">
             <English>Ground Effect Increment</English>
         </Key>

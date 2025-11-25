@@ -45,7 +45,7 @@ if (_textureInfo isEqualTo []) then {
     };
 
     {
-        if ((toLower _x) in CAMO_IDS && {(_textures select _forEachIndex) isNotEqualTo ""}) then {
+        if ((toLower _x) in GVAR(allowedSelections) && {(_textures select _forEachIndex) isNotEqualTo ""}) then {
             _textureInfo pushBack [_forEachIndex, _textures select _forEachIndex, displayNull];
         };
     } forEach (_texturesSelections select [0, (count _texturesSelections) min (count _textures)]);
