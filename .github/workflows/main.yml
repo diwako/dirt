@@ -35,7 +35,7 @@ jobs:
         continue-on-error: true # No failure due to many false-positives
         with:
           args: --exit e --directory addons --o sqf.log --exclude ".*\/words.*\.sqf"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: "sqfLint Log"
           path: "sqf.log"
@@ -76,7 +76,7 @@ jobs:
       - name: Run HEMTT build
         run: hemtt release
       - name: Upload Release
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: "@dirt"
           path: ".hemttout/release/*"
