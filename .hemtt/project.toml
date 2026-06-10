@@ -18,7 +18,8 @@ include = [
 ]
 exclude = ["*.psd", "*.png", "*.tga", "/**/Cfg*.hpp"]
 
-[hemtt.signing]
+[signing]
+private_key_hash = "485e3aa9da21a64e890a43152aff4fca11ab347b"
 authority = "dirt"
 
 [hemtt.release]
