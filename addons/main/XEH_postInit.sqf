@@ -158,8 +158,8 @@ if (GVAR(preWarmUp)) then {
         // systemChat format ["textures: %1 (%3) | %2", GVAR(displaysTotal), GVAR(maxDynTextures), count GVAR(displays)];
         GVAR(maxDynTextures) isEqualTo GVAR(displaysTotal)
     }, {
-        [FUNC(loop), [], 1] call CBA_fnc_waitAndExecute;
+        [{call FUNC(loop)}, [], 1] call CBA_fnc_waitAndExecute;
     }] call CBA_fnc_waitUntilAndExecute
 } else {
-    [FUNC(loop), [], 1] call CBA_fnc_waitAndExecute;
+    [{call FUNC(loop)}, [], 1] call CBA_fnc_waitAndExecute;
 };

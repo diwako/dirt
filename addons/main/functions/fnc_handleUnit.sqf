@@ -58,6 +58,9 @@ private _fnc_container = {
                     ((_unit getVariable ["A3TI_oldTextAndMat", []]) select 0) set [_index, _display getVariable QGVAR(definition)]
                 } else {
                     _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
+                    if ("uniform" in _var) then { // save game load fall back
+                        _unit setObjectTexture [_index, _display getVariable QGVAR(definition)];
+                    };
                 };
                 deleteVehicle _helperObject;
             }, [_unit, _container, _displayName, _texture, _helperObject, _index, _var], 10, {
@@ -83,6 +86,9 @@ private _fnc_container = {
                 ((_unit getVariable ["A3TI_oldTextAndMat", []]) select 0) set [_index, _display getVariable QGVAR(definition)]
             } else {
                 _container setObjectTexture [_index, _display getVariable QGVAR(definition)];
+                if ("uniform" in _var) then { // save game load fall back
+                    _unit setObjectTexture [_index, _display getVariable QGVAR(definition)];
+                };
             };
             _unit setVariable [QGVAR(partial), nil];
         };
@@ -90,6 +96,7 @@ private _fnc_container = {
 
     _unit setVariable [_var, _container];
     _unit setVariable [QGVAR(updateTextures), true];
+    _unit setVariable [format ["%1_backup", _var], +_textureInfo];
 };
 
 if (_unit getVariable [QGVAR(active), false]) then {
@@ -99,7 +106,7 @@ if (_unit getVariable [QGVAR(active), false]) then {
         private _displays = (_unit getVariable [_var, objNull]) getVariable [QGVAR(displays), []];
         private _trackedDisplays = _unit getVariable [QGVAR(displays), []];
         _unit setVariable [QGVAR(displays), _trackedDisplays - _displays];
-        [_unit getVariable [_var, objNull]] call FUNC(dressDownContainer);
+        [_unit getVariable [_var, objNull], _var] call FUNC(dressDownContainer);
         _unit setVariable [_var, nil];
 
         {

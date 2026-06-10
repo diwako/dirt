@@ -1,6 +1,6 @@
 #include "..\script_component.hpp"
 
-params [["_container", objNull]];
+params [["_container", objNull], "_var"];
 if (isNull _container) exitWith {};
 // A3TI Compat
 private _a3ti = ((_container getVariable [QGVAR(unit), objNull]) getVariable ["A3TI_oldTextAndMat", []]) isNotEqualTo [] && {getText (configOf _container >> "vehicleClass") != "Backpacks" };
@@ -11,6 +11,9 @@ private _a3ti = ((_container getVariable [QGVAR(unit), objNull]) getVariable ["A
         (((_container getVariable [QGVAR(unit), objNull]) getVariable ["A3TI_oldTextAndMat", []]) select 0) set  [_index, _texture];
     } else {
         _container setObjectTexture [_index, _texture];
+        if ("uniform" in _var) then { // save game fallback
+            (_container getVariable [QGVAR(unit), objNull]) setObjectTexture [_index, _texture];
+        };
     };
 } forEach (_container getVariable [QGVAR(textures), []]);
 _container setVariable [QGVAR(textures), nil];
