@@ -109,5 +109,14 @@
         <Key ID="STR_DIRT_main_explosionEH_desc">
             <English>Nearby explosions add to texture opacity, such as for dirt, snow or burn textures</English>
         </Key>
+        <Key ID="STR_DIRT_main_resetkeybind">
+            <English>Reset/reload textures</English>
+        </Key>
+        <Key ID="STR_DIRT_main_resetkeybind_desc">
+            <English>Briefly resets the currently loaded dynamic textures and reloads them. Useful in case some textures are jumbled up.</English>
+        </Key>
+        <Key ID="STR_DIRT_main_resetchattext">
+            <English>DIRT: Textures are being resetted and reloaded!</English>
+        </Key>
     </Package>
 </Project>
