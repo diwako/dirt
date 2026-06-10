@@ -1,6 +1,6 @@
 #include "..\script_component.hpp"
 
-[FUNC(loop), [], GVAR(updateFrequency)] call CBA_fnc_waitAndExecute;
+[{call FUNC(loop)}, [], GVAR(updateFrequency)] call CBA_fnc_waitAndExecute;
 if !(GVAR(enable)) exitWith {
     {
         [_x] call FUNC(resetUnit);
@@ -10,18 +10,25 @@ if !(GVAR(enable)) exitWith {
 
 // check for savegame load, displays become null then
 if (GVAR(displays) isNotEqualTo [] && {isNull (GVAR(displays) select 0)}) exitWith {
-    [{
-        private _text = "Save game detected";
-        INFO(_text);
-        {
-            [_x] call FUNC(resetUnit);
-        } forEach GVAR(unitsAll);
-        GVAR(displays) = [];
-        GVAR(freeDisplays) = [];
-        GVAR(displaysTotal) = 0;
-        GVAR(orphanedDisplays) = [];
-        GVAR(unitsAll) = [];
-    }] call CBA_fnc_execNextFrame;
+    private _text = "Save game detected";
+    INFO(_text);
+    {
+        [_x, true] call FUNC(resetUnit);
+    } forEach GVAR(unitsAll);
+    for "_i" from 0 to GVAR(displaysTotal) do {
+        private _display = findDisplay format["dirt_textures§%1", _i];
+        if !(isNull _display) then {
+            _text = format ["Closing display dirt_textures§%1", _i];
+            INFO(_text);
+            _display closeDisplay 1;
+        };
+    };
+
+    GVAR(displays) = [];
+    GVAR(freeDisplays) = [];
+    GVAR(displaysTotal) = 0;
+    GVAR(orphanedDisplays) = [];
+    GVAR(unitsAll) = [];
 };
 
 private _camPos = positionCameraToWorld [0,0,0];

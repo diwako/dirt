@@ -45,8 +45,22 @@ if (_textureInfo isEqualTo []) then {
     };
 
     {
-        if ((toLower _x) in GVAR(allowedSelections) && {(_textures select _forEachIndex) isNotEqualTo ""}) then {
-            _textureInfo pushBack [_forEachIndex, _textures select _forEachIndex, displayNull];
+        private _texture = _textures select _forEachIndex;
+        if ("dirt_textures§" in _texture) then { // save game fallback
+            private _index = _forEachIndex;
+            private _backup = _unit getVariable [format ["%1_backup", [QGVAR(backpackContainer), QGVAR(uniformContainer)] select ("uniform" in _var)], []];
+
+            if (_backup isNotEqualTo []) then {
+                private _text = format ["Old display info found in container textures, loading backup: ""%1"" --> ""%2""", _texture, _backup select {_index isEqualTo (_x select 0)} select 0 select 1];
+                INFO(_text);
+                _texture = _backup select {_index isEqualTo (_x select 0)} select 0 select 1;
+            } else {
+                private _text = format ["No backup texture found!! ""%1""", _texture];
+                WARNING(_text);
+            };
+        };
+        if ((toLower _x) in GVAR(allowedSelections) && {_texture isNotEqualTo ""}) then {
+            _textureInfo pushBack [_forEachIndex, _texture, displayNull];
         };
     } forEach (_texturesSelections select [0, (count _texturesSelections) min (count _textures)]);
 
